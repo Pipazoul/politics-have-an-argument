@@ -2,5 +2,11 @@
     "consumer_key":"consumer_key",
     "consumer_secret" :"consumer_secret",
     "access_token_key": "access_token_key",
-    "access_token_secret" : "access_token_secret"
+    "access_token_secret" : "access_token_secret",
+
+    "tweet_count" : 1000,
+    "tweet_number" : 2,
+    "searchByMonth" : false,
+    "monthDate" : 12,
+    "query" : "Brexit"
 }
