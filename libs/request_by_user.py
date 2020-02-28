@@ -11,7 +11,7 @@ import subprocess
 
 
 # Getting configuration params
-with open('config.json') as json_data_file:
+with open('./config.json') as json_data_file:
     conf = json.load(json_data_file)
 
 # API Credentials
@@ -31,8 +31,7 @@ count = conf["tweet_count"]
 tweetPerPolitic = conf["tweet_number"]
 monthDate = conf["monthDate"]
 query = conf["query"]
-
-
+outputPath = "./" + conf["outputPath"]
 # Speakers identification
 speaker1 = conf["speaker1"]
 speaker2 = conf["speaker2"]
@@ -92,28 +91,26 @@ def genTTS(i, result, account, language) :
             
             if createSubFolders == True :
                 try :
-                    os.mkdir('output/'+account)
+                    os.mkdir(outputPath+'/'+account)
                 except OSError :
                     print("The folders already exist")
 
-                tts.save('output/'+account+'/audio'+ str(i) +'.mp3')
+                tts.save(outputPath+'/'+account+'/audio'+ str(i) +'.mp3')
             else :
-                tts.save('output/'+account+'_audio'+ str(i) +'.mp3')
-            # Generate the m3u playlist
-            #file = open("playlist.m3u","w") 
-            
-            #file.write("#EXTM3U") 
-            #file.write(“This is our new text file”) 
-            #file.write(“and this is another line.”) 
-            #file.write(“Why? Because we can.”) 
-            
-            #file.close() 
+                tts.save(outputPath+'/'+account+'_audio'+ str(i) +'.mp3')
             print(account)
 
 
 if generateAudio == True :
-    shutil.rmtree('output')
-    os.mkdir('output')
+    try :
+        shutil.rmtree(outputPath)
+    except OSError :
+        print("The folders already exist")
+        os.mkdir(outputPath)
+    try :
+        os.mkdir(outputPath)
+    except OSError :
+        print("The folders already exist")
 
 print("******************TWITTER TO TTS********************")
 print("Numbers of tweet to search : " + str(count))
@@ -125,9 +122,9 @@ print("Query : " + query)
 print("****************************************************")
 
 
-getPoliticTweet(speaker1[0], speaker1[1])
-getPoliticTweet(speaker2[0], speaker1[1])
-getPoliticTweet(speaker3[0], speaker1[1])
+getPoliticTweet(speaker1[1], speaker1[2])
+getPoliticTweet(speaker2[1], speaker1[2])
+getPoliticTweet(speaker3[1], speaker1[2])
 
 # python request_by_user.py realDonaldTrump en
 #International politics
