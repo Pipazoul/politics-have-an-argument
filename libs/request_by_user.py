@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 # Attempt to request older tweets from username
 
 import twitter
@@ -19,6 +20,9 @@ consumer_key = conf["consumer_key"]
 consumer_secret = conf["consumer_secret"]
 access_token_key = conf["access_token_key"]
 access_token_secret = conf["access_token_secret"]
+
+# TTS Driver gtts or espeak
+ttsDriver = conf["ttsDriver"]
 
 # Searching params
 generateAudio = True
@@ -44,7 +48,7 @@ api = twitter.Api(consumer_key= consumer_key,
                   access_token_key= access_token_key,
                   access_token_secret= access_token_secret)
 
-def getPoliticTweet(account, language) :
+def getPoliticTweet(account, language, gender) :
     # The request is made user=id account nbcound include_rts =  False trim_user=False exclude_replies=True
     results = api.GetUserTimeline("",account, "", "", count, False, False, True)
     
@@ -63,22 +67,22 @@ def getPoliticTweet(account, language) :
                     if querySearch == True :
                         if result.text.find(query) != -1 :
                             text = removeUrls(result)
-                            genTTS(i, text, account,language)
+                            genTTS(i, text, account,language, gender)
                             i = i+1
                     else : 
                         text = removeUrls(result)
-                        genTTS(i, text, account,language)
+                        genTTS(i, text, account,language, gender)
                         i = i+1
             else :
                 # SEARCH WITH QUERY
                 if querySearch == True :
                     if result.text.find(query) != -1 :
                         text = removeUrls(result)
-                        genTTS(i, text, account,language)
+                        genTTS(i, text, account,language, gender)
                         i = i+1
                 else : 
                     text = removeUrls(result)
-                    genTTS(i, text, account,language)
+                    genTTS(i, text, account,language, gender)
                     i = i+1
     print("################################")
 
@@ -88,9 +92,28 @@ def removeUrls(result) :
     print(result.text)
     return result
 
-def genTTS(i, result, account, language) :
+def genTTS(i, result, account, language, gender) :
     print("TTS Generation")
     if generateAudio == True :
+        if ttsDriver == "espeak" :
+            #espeak -vfr -p 50 "Je me suis trompé de chemin"
+            print("espeak", "-v"+ language+ "+" + gender, "-p", "50", result.text)
+            subprocess.call(["espeak", "-w", outputPath+'/'+account+'/audio'+ str(i) +'.mp3', "-v"+ language+ "+" + gender, "-p", "50","-s", "140", result.text])
+
+            #subprocess.call(["espeak", "-w", "output.wav", "-vfr", "-p", "50", "Je me suis trompé de chemin"])
+            #exit()
+            if createSubFolders == True :
+                try :
+                    os.mkdir(outputPath+'/'+account)
+                except OSError :
+                    print("The folders already exist")
+
+                subprocess.call(["espeak", "-w", outputPath+'/'+account+'/audio'+ str(i) +'.mp3', "-v"+ language+ "+" + gender, "-p", "50","-s", "140", result.text])
+                
+            else :
+                subprocess.call(["espeak", "-w", outputPath+'/'+account+'/audio'+ str(i) +'.mp3', "-v"+ language+ "+" + gender, "-p", "50","-s", "140", result.text])
+            print(account)
+        elif ttsDriver == "gtts" :
             tts = gTTS(result.text, lang=language)
             
             if createSubFolders == True :
@@ -128,9 +151,9 @@ print("Query : " + query)
 print("****************************************************")
 
 
-getPoliticTweet(speaker1[1], speaker1[2])
-getPoliticTweet(speaker2[1], speaker1[2])
-getPoliticTweet(speaker3[1], speaker1[2])
+getPoliticTweet(speaker1[1], speaker1[2], speaker1[3])
+getPoliticTweet(speaker2[1], speaker2[2], speaker2[3])
+getPoliticTweet(speaker3[1], speaker3[2], speaker3[3])
 
 # python request_by_user.py realDonaldTrump en
 #International politics

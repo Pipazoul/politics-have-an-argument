@@ -15,6 +15,7 @@ RUN apt install -y nano
 RUN apt install -y iputils-ping
 RUN apt install -y net-tools
 RUN apt install -y curl
+RUN apt install -y espeak
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN python get-pip.py
 RUN pip install python-twitter

@@ -9,10 +9,12 @@
     "searchByMonth" : false,
     "monthDate" : 12,
     "query" : "",
+    
+    "ttsDriver": "gtts",
 
-    "speaker1" : ["speaker1","BernieSanders", "en"],
-    "speaker2" : ["speaker2","borisjohnson", "en"],
-    "speaker3" : ["speaker3","JLMelenchon", "fr"],
+    "speaker1" : ["speaker1","christineboutin", "fr", "f1"],
+    "speaker2" : ["speaker2","EmmanuelMacron", "fr", "m2"],
+    "speaker3" : ["speaker3","JLMelenchon", "fr", "m1"],
 
     "outputPath" : "output",
 
