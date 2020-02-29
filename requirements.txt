@@ -1,0 +1,3 @@
+python-twitter==3.5
+gtts==2.0.4
+pathlib==1.0.1
