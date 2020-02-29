@@ -13,7 +13,7 @@ icecast server
 
 ## How it works
 
-![alt text](architecture.jpg)
+![alt text](medias/architecture.jpg)
 
 ## Docker setup
 Clone this repo
