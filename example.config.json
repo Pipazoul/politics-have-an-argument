@@ -8,5 +8,14 @@
     "tweet_number" : 2,
     "searchByMonth" : false,
     "monthDate" : 12,
-    "query" : "Brexit"
+    "query" : "",
+
+    "speaker1" : ["speaker1","BernieSanders", "en"],
+    "speaker2" : ["speaker2","borisjohnson", "en"],
+    "speaker3" : ["speaker3","JLMelenchon", "fr"],
+
+    "outputPath" : "output",
+
+    "icecastUrl" : "http://localhost:8000/",
+    "icecastPassword" : "mypassword"
 }
