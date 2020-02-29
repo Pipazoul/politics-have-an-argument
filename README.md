@@ -28,13 +28,17 @@ Create a network so both containers can connect on the same subnet
 Launch the icecast server with your own passwords
 >docker run -p 8050:8000 -ti  --network=politics -e ICECAST_SOURCE_PASSWORD=mypassword -e ICECAST_ADMIN_PASSWORD=mypassword -e ICECAST_PASSWORD=mypassword -e ICECAST_RELAY_PASSWORD=mypassword moul/icecast 
 
-
+You can now acces to your Icecast server on your navigator on http://localhost:8050
 
 **In another terminal**
 
 >docker build -t politics .
 
->sudo docker run -ti --network=politics politics:latest 
+After your container is built (can take a few minutes depending on your internet speed)
+
+Launch the docker container
+
+>docker run -ti --network=politics politics:latest 
 
 In container :
 
@@ -50,6 +54,28 @@ https://dev.twitter.com/apps/new
     "access_token_secret" : "access_token_secret",
 
 ```
+
+In the same file (config.json) change the Icecast server url
+**To get the ip of your icecast server :**
+Inside the politics container make an 
+> ifconfig
+
+Check the eth0 interface's allocated ip
+ex : 
+```
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.18.0.3
+```
+
+You can assume that the Icecast server has the 172.18.0.2 ip, change the config file accordingly :
+
+```json
+    "icecastUrl" : "http://172.18.0.2:8000/",
+    "icecastPassword" : "mypassword"
+```
+**The port number has to be 8000**
+
+
 Then launch the start.sh file
 > sh start.sh
 
@@ -57,9 +83,17 @@ Then launch the start.sh file
 - get the tweets 
 - transcribe them to audio trough GTTS or Espeak
 - Generate m3u playlists by politic
-- Stream the audio trough /speaker1 /speaker2 /speaker3
+- Stream the audio trough /speaker1 /speaker2 
 
 **This process can take up to 1 minute**
+
+When ezstream is showing up in the console
+Go back to your navigator to the Icecast server url http://localhost:8050
+
+You should now see to active mountpoints /speaker1 and speaker2 
+You can listen them directly trought the navigator
+- http://localhost:8050/speaker1
+- http://localhost:8050/speaker2
 
 ## Audio Stream Specs
 The shields used are :
